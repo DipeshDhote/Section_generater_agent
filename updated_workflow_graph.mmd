@@ -1,0 +1,32 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	get_available_sections(get_available_sections)
+	rewrite_constitution(rewrite_constitution)
+	init_section_loop(init_section_loop)
+	get_next_section(get_next_section)
+	get_section_chunks(get_section_chunks)
+	generate_section(generate_section)
+	validate_section(validate_section)
+	increment_retry(increment_retry)
+	store_section(store_section)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> get_available_sections;
+	generate_section --> validate_section;
+	get_available_sections --> rewrite_constitution;
+	get_next_section --> get_section_chunks;
+	get_section_chunks --> generate_section;
+	increment_retry --> generate_section;
+	init_section_loop --> get_next_section;
+	rewrite_constitution --> init_section_loop;
+	store_section -. &nbsp;end&nbsp; .-> __end__;
+	store_section -. &nbsp;continue&nbsp; .-> get_next_section;
+	validate_section -. &nbsp;retry&nbsp; .-> increment_retry;
+	validate_section -. &nbsp;store&nbsp; .-> store_section;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
